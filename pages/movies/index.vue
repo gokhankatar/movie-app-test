@@ -21,7 +21,7 @@
         class="movie-img transition cursor-pointer rounded-lg"
         :src="baseImageUrl + item.backdrop_path"
       />
-      <p class="movie-title pa-3 rounded-lg text-subititle-1 text-sm-h5">
+      <p class="movie-title pa-3 text-white rounded-lg text-subititle-1 text-sm-h5">
         {{ item.original_title }}
       </p>
       <span class="movie-rate pa-2 bg-deep-orange text-white">{{
@@ -88,7 +88,7 @@ watch(
 }
 .movie:hover .movie-title {
   background: rgba(0, 0, 0, 0.3);
-  color: #ff5722;
+  color: #ff5722 !important;
 }
 .movie:hover .movie-img {
   scale: 1.1;
