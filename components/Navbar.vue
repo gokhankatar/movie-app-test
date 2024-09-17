@@ -6,7 +6,7 @@
     <template v-slot:prepend>
       <div
         @click="router.replace('/')"
-        class="logo cursor-pointer d-flex justify-center align-center ga-2"
+        class="logo cursor-pointer d-flex justify-center align-center ga-5"
       >
         <v-img
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Eo_circle_orange_film-camera.svg/480px-Eo_circle_orange_film-camera.svg.png"
