@@ -1,12 +1,6 @@
 <template>
   <Loading v-if="store.isLoading" />
 
-  <v-row v-if="!store.isLoading">
-    <h3 class="text-h5 text-md-h3">Now Trending</h3>
-  </v-row>
-
-  <hr v-if="!store.isLoading" class="my-15" />
-
   <v-row v-if="!store.isLoading" class="mt-5 d-flex flex-wrap align-center">
     <v-col
       class="movie rounded-lg"
@@ -18,15 +12,25 @@
       lg="3"
     >
       <v-img
-        class="movie-img transition cursor-pointer rounded-lg"
+        class="movie-img transition rounded-lg"
         :src="baseImageUrl + item.backdrop_path"
       />
-      <p class="movie-title pa-3 text-white rounded-lg text-subititle-1 text-sm-h5">
-        {{ item.original_title }}
-      </p>
       <span class="movie-rate pa-2 bg-deep-orange text-white">{{
         item.vote_average.toFixed(1)
       }}</span>
+      <v-img
+        width="50"
+        src="https://cdn-icons-png.flaticon.com/512/3686/3686899.png"
+        class="play-icon d-none cursor-pointer transition pa-5 rounded-xl"
+      />
+      <div class="content pa-2 d-flex flex-column rounded-lg">
+        <p class="date text-white text-caption text-sm-subtitle-1">
+          {{ item.release_date.slice(0, 4) }}
+        </p>
+        <p class="movie-title text-white text-subtitle-1">
+          {{ item.original_title }}
+        </p>
+      </div>
     </v-col>
   </v-row>
 
@@ -37,12 +41,12 @@
     active-color="deep-orange"
     class="mt-15 transition"
     @input="onPageChange"
-  ></v-pagination>
+  />
 </template>
 
 <script lang="ts" setup>
 import { ref, onMounted, watch } from "vue";
-import { usePaginationStore } from "/store/paginationStore.js";
+import { usePaginationStore } from "~/store/paginationStore.js";
 
 const isLoading = ref(false);
 const store = usePaginationStore();
@@ -78,25 +82,34 @@ watch(
   z-index: 2;
   border-radius: 0 0 1.5rem 0;
 }
-.card:hover .vote {
-  background-color: orange !important;
-  color: #fff !important;
+
+.play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+}
+.play-icon:hover {
+  background: rgba(0, 0, 0, 0.3);
 }
 .movie {
   position: relative;
   overflow: hidden;
 }
-.movie:hover .movie-title {
+.movie:hover .content {
   background: rgba(0, 0, 0, 0.3);
   color: #ff5722 !important;
+}
+.movie:hover .play-icon {
+  display: flex !important;
 }
 .movie:hover .movie-img {
   scale: 1.1;
 }
-.movie-title {
+.content {
   position: absolute;
   bottom: 5%;
-  left: 5%;
   z-index: 99;
 }
 </style>
