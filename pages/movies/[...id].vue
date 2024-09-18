@@ -1,30 +1,3 @@
-<script lang="ts" setup>
-import { ref } from "vue";
-import { computed } from "vue";
-import { useRoute } from "vue-router";
-
-const isLoading = ref(false);
-const route = useRoute();
-const router = useRouter();
-const baseImageUrlLg = "https://image.tmdb.org/t/p/w1280";
-const baseImageUrlSm = "https://image.tmdb.org/t/p/w500";
-const baseImageUrlPosterLg = "https://image.tmdb.org/t/p/w500";
-const baseImageUrlPosterSm = "https://image.tmdb.org/t/p/w300";
-
-const movie = computed(() => {
-  const movieData = route.query.movie;
-  try {
-    isLoading.value = true;
-    return typeof movieData === "string" ? JSON.parse(movieData) : null;
-  } catch (error) {
-    console.error("Movie data parsing error:", error);
-    return null;
-  } finally {
-    isLoading.value = false;
-  }
-});
-</script>
-
 <template>
   <Loading v-if="isLoading" />
   <div v-if="movie && !isLoading">
@@ -77,6 +50,9 @@ const movie = computed(() => {
           <strong>Overview : </strong>{{ movie.overview }}
         </p>
         <p class="text-subtitle-1 text-white">
+          <strong>Genres : </strong>{{ genreNames }}
+        </p>
+        <p class="text-subtitle-1 text-white">
           <strong>Release : </strong>{{ movie.release_date.slice(0, 4) }}
         </p>
         <p class="text-subtitle-1 text-white d-flex ga-2 justify-start align-center">
@@ -102,6 +78,64 @@ const movie = computed(() => {
     </v-row>
   </div>
 </template>
+
+<script lang="ts" setup>
+import { ref, computed } from "vue";
+import { useRoute, useRouter } from "vue-router";
+
+const isLoading = ref(false);
+const route = useRoute();
+const router = useRouter();
+const baseImageUrlLg = "https://image.tmdb.org/t/p/w1280";
+const baseImageUrlSm = "https://image.tmdb.org/t/p/w500";
+const baseImageUrlPosterLg = "https://image.tmdb.org/t/p/w500";
+const baseImageUrlPosterSm = "https://image.tmdb.org/t/p/w300";
+
+const genreList = ref<{ id: number; name: string }[]>([]); // Genre list
+const movie = computed(() => {
+  const movieData = route.query.movie;
+  try {
+    isLoading.value = true;
+    return typeof movieData === "string" ? JSON.parse(movieData) : null;
+  } catch (error) {
+    console.error("Movie data parsing error:", error);
+    return null;
+  } finally {
+    isLoading.value = false;
+  }
+});
+
+const genreNames = computed(() => {
+  if (!movie.value) return "";
+  return movie.value.genre_ids
+    .map((id: number) => {
+      const genre = genreList.value.find((g) => g.id === id);
+      return genre ? genre.name : "Unknown";
+    })
+    .join(", ");
+});
+
+const fetchGenres = async () => {
+  try {
+    const { data: genresResponse } = await useFetch(
+      `https://api.themoviedb.org/3/genre/movie/list`,
+      {
+        params: {
+          api_key: "4e012d6a950f5501f23ee3e7f1e548d4",
+          language: "en-US",
+        },
+      }
+    );
+    genreList.value = genresResponse.value.genres;
+  } catch (error) {
+    console.error("Error fetching genres:", error.message);
+  }
+};
+
+onMounted(() => {
+  fetchGenres();
+});
+</script>
 
 <style scoped>
 .background-blur {
