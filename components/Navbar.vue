@@ -22,12 +22,11 @@
       <span
         @click="router.replace('/movies')"
         :class="route.fullPath.includes('movies') ? 'active-link' : ''"
-        class="link transition cursor-pointer pa-2 mr-5 bg-transparent rounded-lg"
+        class="link d-none d-sm-flex transition cursor-pointer pa-2 mr-5 bg-transparent rounded-lg"
         >All Movies</span
       >
       <v-btn
-        @click="isSearcingMovie = !isSearcingMovie"
-        width="250"
+        @click="openSearchBar"
         variant="outlined"
         rounded="xl"
         :color="_store.theme === 'dark' ? 'deep-orange' : 'white'"
@@ -46,8 +45,9 @@
 
   <!-- Search -->
   <v-dialog v-model="isSearcingMovie" max-width="600">
-    <div class="wrapper pa-10 rounded-lg">
+    <div class="wrapper pa-5 pa-sm-10 rounded-lg">
       <v-text-field
+        id="searchBar"
         @input="searchMovie"
         class="text-white"
         v-model="models.name"
@@ -65,12 +65,18 @@
         :key="item.id"
         class="search-result-list cursor-pointer pa-2 d-flex ga-2 my-1 rounded-lg"
       >
-        <img :src="item.poster_url" width="70" class="rounded-lg" />
+        <img :src="item.poster_url" width="70" class="d-none d-sm-flex rounded-lg" />
+        <img :src="item.poster_url" width="50" class="d-flex d-sm-none rounded-lg" />
         <div class="content d-flex flex-column ga-1">
           <p class="text-subtitle-2 text-white search-result-title text-sm-subtitle-1">
             {{ item.original_title }}
           </p>
-          <p class="text-caption text-white text-sm-subtitle-1">{{ item.genre_names }}</p>
+          <p class="text-subtitle-2 text-white text-sm-subtitle-1">
+            {{ item.genre_names }}
+          </p>
+          <p class="text-caption text-white text-sm-subtitle-1">
+            {{ item.release_date.slice(0, 4) }}
+          </p>
         </div>
       </div>
       <div v-if="isNotFounded">
@@ -104,12 +110,20 @@ const models = ref({
 const searchResultMovies = ref([]);
 const genreList = ref([]);
 
+const openSearchBar = async () => {
+  isSearcingMovie.value = true;
+  models.value.name = "";
+  searchResultMovies.value = [];
+  await nextTick();
+
+  const searchBar = document.getElementById("searchBar");
+  searchBar?.focus();
+};
+
 const handleKeyDown = (e: any) => {
   if (e.ctrlKey && e.key === "k") {
     e.preventDefault();
-    isSearcingMovie.value = true;
-    models.value.name = "";
-    searchResultMovies.value = [];
+    openSearchBar();
   }
 };
 
