@@ -1,7 +1,9 @@
 <script lang="ts" setup>
+import { ref } from "vue";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 
+const isLoading = ref(false);
 const route = useRoute();
 const router = useRouter();
 const baseImageUrlLg = "https://image.tmdb.org/t/p/w1280";
@@ -12,16 +14,20 @@ const baseImageUrlPosterSm = "https://image.tmdb.org/t/p/w300";
 const movie = computed(() => {
   const movieData = route.query.movie;
   try {
+    isLoading.value = true;
     return typeof movieData === "string" ? JSON.parse(movieData) : null;
   } catch (error) {
     console.error("Movie data parsing error:", error);
     return null;
+  } finally {
+    isLoading.value = false;
   }
 });
 </script>
 
 <template>
-  <div v-if="movie">
+  <Loading v-if="isLoading" />
+  <div v-if="movie && !isLoading">
     <div
       class="d-none d-sm-flex background-blur"
       :style="{
@@ -95,7 +101,6 @@ const movie = computed(() => {
       </v-col>
     </v-row>
   </div>
-  <div v-else>Loading movie details...</div>
 </template>
 
 <style scoped>
