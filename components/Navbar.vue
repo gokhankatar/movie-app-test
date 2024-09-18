@@ -12,24 +12,76 @@
     <div class="d-flex justify-center align-center ga-3">
       <span @click="router.replace('/movies')" :class="route.fullPath.includes('movies') ? 'active-link' : ''"
         class="link transition cursor-pointer pa-2 mr-5 bg-transparent rounded-lg">All Movies</span>
-      <v-btn width="250" variant="outlined" rounded="xl" :color="_store.theme === 'dark' ? 'deep-orange' : 'white'"
-        prepend-icon="mdi-magnify" text="Search..." />
+      <v-btn @click="isSearcingMovie = !isSearcingMovie" width="250" variant="outlined" rounded="xl"
+        :color="_store.theme === 'dark' ? 'deep-orange' : 'white'" prepend-icon="mdi-magnify"
+        :class="_store.theme === 'dark' ? 'dark-search-btn' : 'light-search-btn'" text="Search... &nbsp; ctrl+k" />
       <v-icon @click="_store.changeTheme" class="icon-theme rounded-lg pa-5 cursor-pointer transition"
         :icon="_store.theme === 'light' ? 'mdi-weather-night' : 'mdi-weather-sunny'" color="white" />
     </div>
   </v-row>
+
+  <!-- Search -->
+  <v-dialog v-model="isSearcingMovie" max-width="600">
+    <div class="wrapper pa-10 rounded-lg">
+      <v-text-field class="text-white" v-model="models.name" label="Search" color="deep-orange"
+        placeholder="Write movie name" variant="outlined" rounded="xl" />
+      <div v-for="item of searchResultMovies"
+        class="search-result-list cursor-pointer pa-2 d-flex ga-2 my-1 rounded-lg">
+        <img :src="item.url" width="70" class="rounded-lg" />
+        <div class="content d-flex flex-column ga-1">
+          <p class="text-subtitle-2 text-white search-result-title text-sm-subtitle-1">{{ item.name }}</p>
+          <p class="text-caption text-white text-sm-subtitle-1">{{ item.genre }}</p>
+        </div>
+      </div>
+    </div>
+  </v-dialog>
 </template>
 
 <script lang="ts" setup>
+import { ref, onMounted } from "vue";
 import store from "~/store/store";
 
+const isSearcingMovie = ref(false);
 const _store = store();
 const router = useRouter();
 const route = useRoute();
+
+const models = ref({
+  name: ""
+});
+
+/* todo: burada yapılması gereken dinamik olarak search etkileşimi koyup api den verileri çekmek */
+const searchResultMovies = [
+  { name: 'John Wick', genre: 'Action', url: "https://media.wired.com/photos/641cb060a52b790517dbfeb6/1:1/w_1045,h_1045,c_limit/john-wick-changed-movies-forever-culture.jpg" },
+  { name: 'John Wick', genre: 'Action', url: "https://media.wired.com/photos/641cb060a52b790517dbfeb6/1:1/w_1045,h_1045,c_limit/john-wick-changed-movies-forever-culture.jpg" },
+  { name: 'John Wick', genre: 'Action', url: "https://media.wired.com/photos/641cb060a52b790517dbfeb6/1:1/w_1045,h_1045,c_limit/john-wick-changed-movies-forever-culture.jpg" },
+  { name: 'John Wick', genre: 'Action', url: "https://media.wired.com/photos/641cb060a52b790517dbfeb6/1:1/w_1045,h_1045,c_limit/john-wick-changed-movies-forever-culture.jpg" },
+  { name: 'John Wick', genre: 'Action', url: "https://media.wired.com/photos/641cb060a52b790517dbfeb6/1:1/w_1045,h_1045,c_limit/john-wick-changed-movies-forever-culture.jpg" },
+  { name: 'John Wick', genre: 'Action', url: "https://media.wired.com/photos/641cb060a52b790517dbfeb6/1:1/w_1045,h_1045,c_limit/john-wick-changed-movies-forever-culture.jpg" },
+  { name: 'John Wick', genre: 'Action', url: "https://media.wired.com/photos/641cb060a52b790517dbfeb6/1:1/w_1045,h_1045,c_limit/john-wick-changed-movies-forever-culture.jpg" },
+  { name: 'John Wick', genre: 'Action', url: "https://media.wired.com/photos/641cb060a52b790517dbfeb6/1:1/w_1045,h_1045,c_limit/john-wick-changed-movies-forever-culture.jpg" }
+]
+
+const handleKeyDown = (e: any) => {
+  if (e.ctrlKey && e.key === "k") {
+    e.preventDefault();
+    isSearcingMovie.value = true;
+  }
+};
+
+onMounted(() => {
+  window.addEventListener("keydown", handleKeyDown)
+})
 </script>
 
 <style scoped>
 @import url("/assets/css/main.css");
+
+.wrapper {
+  background: #20334E;
+  max-height: 70vh;
+  overflow: scroll;
+}
 
 .navbar-dark {
   background: rgba(255, 255, 255, .1);
@@ -39,8 +91,32 @@ const route = useRoute();
   background: #FF5721;
 }
 
+.search-result-list {
+  background: rgba(0, 0, 0, .2)
+}
+
+.search-result-list:hover {
+  background: rgba(0, 0, 0, .3)
+}
+
+.search-result-list:hover .search-result-title {
+  color: #FF5721 !important;
+}
+
 .link:hover {
   background: rgba(0, 0, 0, .3) !important;
+}
+
+.dark-search-btn:hover {
+  border-color: #FF5722;
+  background-color: #FF5722 !important;
+  color: #fff !important;
+}
+
+.light-search-btn:hover {
+  border-color: #000;
+  background-color: #000 !important;
+  color: #fff !important;
 }
 
 .header {
