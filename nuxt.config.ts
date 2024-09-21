@@ -5,5 +5,6 @@ export default defineNuxtConfig({
     "vuetify-nuxt-module",
     "@pinia/nuxt",
     "pinia-plugin-persistedstate",
+    "nuxt-swiper"
   ],
 });
