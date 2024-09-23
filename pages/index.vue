@@ -35,9 +35,8 @@
 
   <div v-if="!store.isLoading && store.data?.results.length > 0" class="mt-15">
     <swiper
-      :spaceBetween="30"
-      :freeMode="true"
       :modules="[SwiperFreeMode, SwiperAutoplay, SwiperNavigation]"
+      :freeMode="true"
       :grab-cursor="true"
       :navigation="{
         prevEl: '.popular-swiper-button-prev',
@@ -78,7 +77,11 @@
       <div class="popular-swiper-button-next rounded-xl pa-5 cursor-pointer">
         <v-icon icon="mdi-arrow-right" size="x-large" />
       </div>
-      <SwiperSlide class="swiper-slide" v-for="item of store.data?.results">
+      <SwiperSlide
+        class="swiper-slide cursor-pointer"
+        v-for="item of store.data?.results"
+        @click="goToMovie(item)"
+      >
         <v-img
           class="rounded-xl d-none d-sm-flex"
           :src="`https://image.tmdb.org/t/p/w342${item.poster_path}`"
@@ -115,9 +118,8 @@
 
   <div v-if="!store.isLoading && store.actionMovies?.results.length > 0" class="mt-15">
     <swiper
-      :spaceBetween="30"
-      :freeMode="true"
       :modules="[SwiperFreeMode, SwiperAutoplay, SwiperNavigation]"
+      :freeMode="true"
       :grab-cursor="true"
       :navigation="{
         prevEl: '.action-swiper-button-prev',
@@ -158,7 +160,11 @@
       <div class="action-swiper-button-next rounded-xl pa-5 cursor-pointer">
         <v-icon icon="mdi-arrow-right" size="x-large" />
       </div>
-      <SwiperSlide class="swiper-slide" v-for="item of store.actionMovies?.results">
+      <SwiperSlide
+        class="swiper-slide cursor-pointer"
+        v-for="item of store.actionMovies?.results"
+        @click="goToMovie(item)"
+      >
         <v-img
           class="rounded-xl d-none d-sm-flex"
           :src="`https://image.tmdb.org/t/p/w342${item.poster_path}`"
@@ -195,10 +201,8 @@
 
   <div v-if="!store.isLoading && store.thrillerMovies?.results.length > 0" class="mt-15">
     <swiper
-      v-if="store.thrillerMovies"
-      :spaceBetween="30"
-      :freeMode="true"
       :modules="[SwiperFreeMode, SwiperAutoplay, SwiperNavigation]"
+      :freeMode="true"
       :grab-cursor="true"
       :navigation="{
         prevEl: '.thriller-swiper-button-prev',
@@ -239,7 +243,11 @@
       <div class="thriller-swiper-button-next rounded-xl pa-5 cursor-pointer">
         <v-icon icon="mdi-arrow-right" size="x-large" />
       </div>
-      <SwiperSlide class="swiper-slide" v-for="item of store.thrillerMovies?.results">
+      <SwiperSlide
+        class="swiper-slide cursor-pointer"
+        v-for="item of store.thrillerMovies?.results"
+        @click="goToMovie(item)"
+      >
         <v-img
           class="rounded-xl d-none d-sm-flex"
           :src="`https://image.tmdb.org/t/p/w342${item.poster_path}`"
@@ -276,9 +284,8 @@
 
   <div v-if="!store.isLoading && store.horrorMovies?.results.length > 0" class="mt-15">
     <swiper
-      :spaceBetween="30"
-      :freeMode="true"
       :modules="[SwiperFreeMode, SwiperAutoplay, SwiperNavigation]"
+      :freeMode="true"
       :grab-cursor="true"
       :navigation="{
         prevEl: '.horror-swiper-button-prev',
@@ -319,7 +326,11 @@
       <div class="horror-swiper-button-next rounded-xl pa-5 cursor-pointer">
         <v-icon icon="mdi-arrow-right" size="x-large" />
       </div>
-      <SwiperSlide class="swiper-slide" v-for="item of store.horrorMovies?.results">
+      <SwiperSlide
+        class="swiper-slide cursor-pointer"
+        v-for="item of store.horrorMovies?.results"
+        @click="goToMovie(item)"
+      >
         <v-img
           class="rounded-xl d-none d-sm-flex"
           :src="`https://image.tmdb.org/t/p/w342${item.poster_path}`"
@@ -356,9 +367,8 @@
 
   <div v-if="!store.isLoading && store.adventureMovies?.results.length > 0" class="mt-15">
     <swiper
-      :spaceBetween="30"
-      :freeMode="true"
       :modules="[SwiperFreeMode, SwiperAutoplay, SwiperNavigation]"
+      :freeMode="true"
       :grab-cursor="true"
       :navigation="{
         prevEl: '.adventure-swiper-button-prev',
@@ -399,7 +409,11 @@
       <div class="adventure-swiper-button-next rounded-xl pa-5 cursor-pointer">
         <v-icon icon="mdi-arrow-right" size="x-large" />
       </div>
-      <SwiperSlide class="swiper-slide" v-for="item of store.adventureMovies?.results">
+      <SwiperSlide
+        class="swiper-slide cursor-pointer"
+        v-for="item of store.adventureMovies?.results"
+        @click="goToMovie(item)"
+      >
         <v-img
           class="rounded-xl d-none d-sm-flex"
           :src="`https://image.tmdb.org/t/p/w342${item.poster_path}`"
@@ -435,9 +449,19 @@ import { usePaginationStore } from "~/store/paginationStore";
 
 const router = useRouter();
 const store = usePaginationStore();
-const randomPage = Math.floor(Math.random() * 100) + 1;
+const randomPage = Math.floor(Math.random() * 15) + 1;
 
-onMounted(() => {
+const goToMovie = (item: any) => {
+  router.push({
+    path: `/movies/${item.id}`,
+    query: {
+      movie: JSON.stringify(item),
+    },
+  });
+};
+
+onMounted(async () => {
+  await nextTick();
   store.fetchData(randomPage);
 });
 </script>

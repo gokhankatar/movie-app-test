@@ -19,6 +19,11 @@
     </div>
 
     <div class="d-flex justify-center align-center ga-3">
+      <v-icon
+        class="icon-theme rounded-lg pa-5 cursor-pointer transition"
+        icon="mdi-home"
+        @click="router.replace('/')"
+      />
       <span
         @click="router.replace('/movies')"
         :class="route.fullPath.includes('movies') ? 'active-link' : ''"
@@ -170,6 +175,7 @@ const searchMovie = async () => {
                 const genre = genreList.value.find((g: any) => g.id === id);
                 return genre ? genre.name : "Unknown";
               }
+              return "Unknown";
             })
             .join(", "),
           poster_url: movie.poster_path
@@ -201,7 +207,9 @@ const goToMovie = (item: any) => {
   });
 };
 
-onMounted(() => {
+onMounted(async () => {
+  await nextTick();
+
   window.addEventListener("keydown", handleKeyDown);
   fetchGenres();
 });

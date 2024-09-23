@@ -17,7 +17,13 @@
     <v-row
       class="content-container fill-height w-100 d-flex justify-space-evenly align-center"
     >
-      <v-col class="content" cols="12" sm="12" md="4">
+      <v-col class="content image" cols="12" sm="12" md="4">
+        <v-img
+          @click="isOpeningTrailer = true"
+          class="play-icon d-none cursor-pointer transition"
+          src="https://cdn-icons-png.flaticon.com/512/3686/3686899.png"
+          width="100"
+        />
         <v-img
           class="d-none d-xl-flex movie-poster rounded-lg"
           :src="baseImageUrlPosterLg + movie.poster_path"
@@ -68,15 +74,33 @@
           <v-icon color="#FB8D00" icon="mdi-eye" />
         </p>
         <v-btn
+          @click="isOpeningTrailer = true"
+          variant="outlined"
+          class="play-btn my-3 rounded-lg transition"
+          size="large"
+          text="play trailer"
+          prepend-icon="mdi-play"
+        />
+        <v-btn
           @click="router.replace('/movies')"
           variant="outlined"
-          class="back-btn my-3 rounded-lg"
+          class="back-btn rounded-lg transition"
           size="large"
           text="back to movies"
         />
       </v-col>
     </v-row>
   </div>
+
+  <v-dialog v-model="isOpeningTrailer" max-width="600">
+    <iframe
+      class="rounded-xl"
+      height="500"
+      :src="`https://www.youtube.com/embed/${trailerKeys[randomIndex]}`"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+  /></v-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -84,14 +108,17 @@ import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const isLoading = ref(false);
+const isOpeningTrailer = ref(false);
 const route = useRoute();
 const router = useRouter();
 const baseImageUrlLg = "https://image.tmdb.org/t/p/w1280";
 const baseImageUrlSm = "https://image.tmdb.org/t/p/w500";
 const baseImageUrlPosterLg = "https://image.tmdb.org/t/p/w500";
 const baseImageUrlPosterSm = "https://image.tmdb.org/t/p/w300";
+const trailerKeys = ref([]);
+const randomIndex = Math.floor(Math.random() * trailerKeys.value.length);
 
-const genreList = ref<{ id: number; name: string }[]>([]); // Genre list
+const genreList = ref<{ id: number; name: string }[]>([]);
 const movie = computed(() => {
   const movieData = route.query.movie;
   try {
@@ -132,12 +159,32 @@ const fetchGenres = async () => {
   }
 };
 
-onMounted(() => {
+const movieTrailer = async () => {
+  const { data } = await useFetch(
+    `https://api.themoviedb.org/3/movie/${movie.value.id}/videos?api_key=4e012d6a950f5501f23ee3e7f1e548d4&language=en-US`
+  );
+  data.value?.results.map((movie: any) => {
+    if (movie.type === "Trailer") {
+      trailerKeys.value.push(movie.key);
+    }
+  });
+};
+
+useHead({
+  title: `GKMovies - ${movie.value.original_title}`,
+});
+
+onMounted(async () => {
+  await nextTick();
+
   fetchGenres();
+  movieTrailer();
 });
 </script>
 
 <style scoped>
+@import url(/assets/css/main.css);
+
 .background-blur {
   position: absolute;
   top: 0;
@@ -150,7 +197,9 @@ onMounted(() => {
   filter: blur(0.6rem);
   z-index: 1;
 }
-
+.image:hover .play-icon {
+  display: flex !important;
+}
 .content-container {
   position: relative;
   z-index: 2;
@@ -158,12 +207,32 @@ onMounted(() => {
 
 .content {
   z-index: 999;
+  position: relative;
 }
 
+.play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  border-radius: 50%;
+}
+.play-icon:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
 .content-text {
   background: rgba(0, 0, 0, 0.3);
 }
-
+.play-btn {
+  border: 1px solid #fff;
+  color: #fff;
+}
+.play-btn:hover {
+  border-color: #4a148c;
+  background-color: #4a148c;
+  color: #fff;
+}
 .back-btn {
   border: 1px solid #fff;
   color: #fff;

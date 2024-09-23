@@ -7,4 +7,15 @@ export default defineNuxtConfig({
     "pinia-plugin-persistedstate",
     "nuxt-swiper"
   ],
+  app: {
+    head: {
+      link: [
+        {
+          rel: "icon",
+          type: 'image/x-icon',
+          href: "/favicon.ico"
+        }
+      ]
+    }
+  }
 });

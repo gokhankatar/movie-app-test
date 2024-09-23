@@ -5,6 +5,18 @@ import store from "./store/store";
 const _store = store();
 const isLoading = ref(true);
 
+useSeoMeta({
+  title: "GKMovies - A web based movie application with Gksoftware software.",
+  ogTitle: "A web based movie application with Gksoftware software.",
+  description:
+    "Gkmovies is one of the GKSoftware web applications that contains movies. You can access more than 10,000 movies with the movie search engine using the TMDB API.",
+  ogDescription:
+    "Gkmovies is one of the GKSoftware web applications that contains movies. You can access more than 10,000 movies with the movie search engine using the TMDB API.",
+  ogImage: "/public/favicon.ico",
+  twitterCard: "/public/favicon.ico",
+  twitterImage: "/public/favicon.ico",
+});
+
 onMounted(() => {
   isLoading.value = false;
 });

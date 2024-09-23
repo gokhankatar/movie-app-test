@@ -31,6 +31,10 @@ const goToMovie = (item: any) => {
     },
   });
 };
+
+useHead({
+  title: "GKMovies - Explore Movies",
+});
 </script>
 
 <template>
