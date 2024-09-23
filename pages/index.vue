@@ -6,7 +6,9 @@
     class="wrapper my-15 d-flex justify-start align-center pa-5 rounded-lg"
   >
     <div class="content-banner d-flex flex-column align-start ga-3">
-      <h5 class="text-h5 text-sm-h4 text-xl-h3 text-deep-orange">Now Streaming</h5>
+      <h5 class="text-h5 text-sm-h4 text-xl-h3 text-deep-orange">
+        More than 10,000 movies
+      </h5>
       <h2 class="text-h4 text-white text-sm-h3 text-md-h3 text-lg-h2 text-xl-h1">
         Now Streaming
       </h2>
