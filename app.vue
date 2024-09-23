@@ -14,8 +14,7 @@ onMounted(() => {
   <v-app :theme="_store.theme">
     <v-main>
       <v-container class="pa-5 pa-sm-8 pa-md-10 pa-lg-12 pa-xl-15">
-        <Loading v-if="isLoading" />
-        <NuxtLayout v-if="!isLoading">
+        <NuxtLayout>
           <NuxtPage />
         </NuxtLayout>
       </v-container>

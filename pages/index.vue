@@ -33,7 +33,7 @@
     <hr class="my-5 w-100 w-md-25" color="deep-orange" />
   </div>
 
-  <div v-if="!store.isLoading" class="mt-15">
+  <div v-if="!store.isLoading && store.data?.results.length > 0" class="mt-15">
     <swiper
       :spaceBetween="30"
       :freeMode="true"
@@ -59,11 +59,15 @@
         },
         '@1.00': {
           slidesPerView: 3,
-          spaceBetween: 40,
+          spaceBetween: 20,
+        },
+        1280: {
+          slidesPerView: 4,
+          spaceBetween: 30,
         },
         '@1.50': {
           slidesPerView: 5,
-          spaceBetween: 20,
+          spaceBetween: 40,
         },
       }"
       class="mySwiper"
@@ -109,7 +113,7 @@
     <hr class="my-5 w-100 w-md-25" color="deep-orange" />
   </div>
 
-  <div v-if="!store.isLoading" class="mt-15">
+  <div v-if="!store.isLoading && store.actionMovies?.results.length > 0" class="mt-15">
     <swiper
       :spaceBetween="30"
       :freeMode="true"
@@ -121,7 +125,7 @@
       }"
       :loop="true"
       :autoplay="{
-        delay: 4500,
+        delay: 4700,
         disableOnInteraction: false,
       }"
       :breakpoints="{
@@ -135,11 +139,15 @@
         },
         '@1.00': {
           slidesPerView: 3,
-          spaceBetween: 40,
+          spaceBetween: 20,
+        },
+        1280: {
+          slidesPerView: 4,
+          spaceBetween: 30,
         },
         '@1.50': {
           slidesPerView: 5,
-          spaceBetween: 20,
+          spaceBetween: 40,
         },
       }"
       class="mySwiper"
@@ -185,8 +193,9 @@
     <hr class="my-5 w-100 w-md-25" color="deep-orange" />
   </div>
 
-  <div v-if="!store.isLoading" class="mt-15">
+  <div v-if="!store.isLoading && store.thrillerMovies?.results.length > 0" class="mt-15">
     <swiper
+      v-if="store.thrillerMovies"
       :spaceBetween="30"
       :freeMode="true"
       :modules="[SwiperFreeMode, SwiperAutoplay, SwiperNavigation]"
@@ -197,7 +206,7 @@
       }"
       :loop="true"
       :autoplay="{
-        delay: 4500,
+        delay: 3800,
         disableOnInteraction: false,
       }"
       :breakpoints="{
@@ -211,11 +220,15 @@
         },
         '@1.00': {
           slidesPerView: 3,
-          spaceBetween: 40,
+          spaceBetween: 20,
+        },
+        1280: {
+          slidesPerView: 4,
+          spaceBetween: 30,
         },
         '@1.50': {
           slidesPerView: 5,
-          spaceBetween: 20,
+          spaceBetween: 40,
         },
       }"
       class="mySwiper"
@@ -261,7 +274,7 @@
     <hr class="my-5 w-100 w-md-25" color="deep-orange" />
   </div>
 
-  <div v-if="!store.isLoading" class="mt-15">
+  <div v-if="!store.isLoading && store.horrorMovies?.results.length > 0" class="mt-15">
     <swiper
       :spaceBetween="30"
       :freeMode="true"
@@ -273,7 +286,7 @@
       }"
       :loop="true"
       :autoplay="{
-        delay: 4500,
+        delay: 4200,
         disableOnInteraction: false,
       }"
       :breakpoints="{
@@ -287,11 +300,15 @@
         },
         '@1.00': {
           slidesPerView: 3,
-          spaceBetween: 40,
+          spaceBetween: 20,
+        },
+        1280: {
+          slidesPerView: 4,
+          spaceBetween: 30,
         },
         '@1.50': {
           slidesPerView: 5,
-          spaceBetween: 20,
+          spaceBetween: 40,
         },
       }"
       class="mySwiper"
@@ -337,7 +354,7 @@
     <hr class="my-5 w-100 w-md-25" color="deep-orange" />
   </div>
 
-  <div v-if="!store.isLoading" class="mt-15">
+  <div v-if="!store.isLoading && store.adventureMovies?.results.length > 0" class="mt-15">
     <swiper
       :spaceBetween="30"
       :freeMode="true"
@@ -349,7 +366,7 @@
       }"
       :loop="true"
       :autoplay="{
-        delay: 4500,
+        delay: 4000,
         disableOnInteraction: false,
       }"
       :breakpoints="{
@@ -363,11 +380,15 @@
         },
         '@1.00': {
           slidesPerView: 3,
-          spaceBetween: 40,
+          spaceBetween: 20,
+        },
+        1280: {
+          slidesPerView: 4,
+          spaceBetween: 30,
         },
         '@1.50': {
           slidesPerView: 5,
-          spaceBetween: 20,
+          spaceBetween: 40,
         },
       }"
       class="mySwiper"
@@ -416,7 +437,7 @@ const router = useRouter();
 const store = usePaginationStore();
 const randomPage = Math.floor(Math.random() * 100) + 1;
 
-onMounted(async () => {
+onMounted(() => {
   store.fetchData(randomPage);
 });
 </script>

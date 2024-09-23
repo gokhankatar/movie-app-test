@@ -138,8 +138,8 @@ const fetchGenres = async () => {
         },
       }
     );
-    genreList.value = genresResponse.value.genres;
-  } catch (error) {
+    genreList.value = genresResponse.value?.genres;
+  } catch (error: any) {
     console.error("Error fetching genres:", error.message);
   }
 };
@@ -166,8 +166,10 @@ const searchMovie = async () => {
           ...movie,
           genre_names: movie.genre_ids
             .map((id: number) => {
-              const genre = genreList.value.find((g) => g.id === id);
-              return genre ? genre.name : "Unknown";
+              if (genreList.value) {
+                const genre = genreList.value.find((g: any) => g.id === id);
+                return genre ? genre.name : "Unknown";
+              }
             })
             .join(", "),
           poster_url: movie.poster_path
@@ -198,6 +200,7 @@ const goToMovie = (item: any) => {
     },
   });
 };
+
 onMounted(() => {
   window.addEventListener("keydown", handleKeyDown);
   fetchGenres();

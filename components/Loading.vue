@@ -1,7 +1,7 @@
 <template>
   <!-- loading bar -->
   <v-progress-circular
-    class="loading-bar"
+    class="loadingBar"
     :size="90"
     :width="9"
     color="deep-orange"
@@ -10,7 +10,7 @@
 </template>
 
 <style scoped>
-.loading-bar {
+.loadingBar {
   position: absolute;
   top: 50%;
   left: 50%;
