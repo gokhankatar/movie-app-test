@@ -2,8 +2,6 @@
 
 <img src="/assets/screenshots/general.png" />
 
-<img src="/assets/screenshots/general2.png" />
-
 # Description
 
 - A movie project that shows information and trailers of more than 10,000 movies. 
@@ -20,6 +18,10 @@
 - Vuetify
 - SwiperJs
 - Pinia
+
+## Movie Detail
+
+<img src="/assets/screenshots/general2.png" />
 
 ## Movie Search
 
