@@ -193,8 +193,8 @@ useSeoMeta({
 });
 
 const shareMovie = (movie: any) => {
-  const movieUrl = `https://gkmovies.vercel.app/movies/${movie.id}`;
-  const shareText = `Check out this movie: ${movie.title}\n${movieUrl}`;
+  const movieUrl = `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`;
+  const shareText = `Check this out: ${movie.title}\n${movieUrl}`;
 
   const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(
     shareText
