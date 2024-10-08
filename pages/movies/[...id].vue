@@ -76,9 +76,17 @@
         <v-btn
           @click="isOpeningTrailer = true"
           variant="outlined"
-          class="play-btn my-3 rounded-lg transition"
+          class="play-btn rounded-lg transition"
           size="large"
           text="play trailer"
+          prepend-icon="mdi-play"
+        />
+        <v-btn
+          @click="shareMovie(movie)"
+          variant="outlined"
+          class="share-btn my-3 rounded-lg transition"
+          size="large"
+          text="Share Movie"
           prepend-icon="mdi-play"
         />
         <v-btn
@@ -174,6 +182,27 @@ useHead({
   title: `GKMovies - ${movie.value.original_title}`,
 });
 
+useSeoMeta({
+  title: movie.value?.title,
+  ogTitle: movie.value?.title,
+  description: movie.value?.overview,
+  ogDescription: movie.value?.overview,
+  ogImage: `https://image.tmdb.org/t/p/w500${movie.value?.backdrop_path}`,
+  twitterCard: "summary_large_image",
+  twitterImage: movie.value?.backdrop_path,
+});
+
+const shareMovie = (movie: any) => {
+  const movieUrl = `https://gkmovies.vercel.app/movies/${movie.id}`;
+  const shareText = `Check out this movie: ${movie.title}\n${movieUrl}`;
+
+  const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(
+    shareText
+  )}`;
+
+  window.open(whatsappUrl, "_blank");
+};
+
 onMounted(async () => {
   await nextTick();
 
@@ -224,7 +253,8 @@ onMounted(async () => {
 .content-text {
   background: rgba(0, 0, 0, 0.3);
 }
-.play-btn {
+.play-btn,
+.share-btn {
   border: 1px solid #fff;
   color: #fff;
 }
@@ -233,11 +263,15 @@ onMounted(async () => {
   background-color: #4a148c;
   color: #fff;
 }
+.share-btn:hover {
+  border-color: #4abce6;
+  background-color: #4abce6;
+  color: #fff;
+}
 .back-btn {
   border: 1px solid #fff;
   color: #fff;
 }
-
 .back-btn:hover {
   border-color: red;
   background-color: red;
