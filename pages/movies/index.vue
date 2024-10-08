@@ -26,6 +26,9 @@ watch(
 const goToMovie = (item: any) => {
   router.push({
     path: `/movies/${item.id}`,
+    query: {
+      movie: JSON.stringify(item),
+    },
   });
 };
 
