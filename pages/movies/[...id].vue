@@ -87,7 +87,7 @@
           class="share-btn my-3 rounded-lg transition"
           size="large"
           text="Share Movie"
-          prepend-icon="mdi-play"
+          prepend-icon="mdi-share-variant"
         />
         <v-btn
           @click="router.replace('/movies')"
