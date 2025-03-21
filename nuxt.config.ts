@@ -5,7 +5,8 @@ export default defineNuxtConfig({
     "vuetify-nuxt-module",
     "@pinia/nuxt",
     "pinia-plugin-persistedstate",
-    "nuxt-swiper"
+    "nuxt-swiper",
+    'nuxt-lodash'
   ],
   app: {
     head: {
@@ -17,5 +18,16 @@ export default defineNuxtConfig({
         }
       ]
     }
-  }
+  },
+  lodash: {
+    prefix: "_",
+    prefixSkip: ["string"],
+    upperAfterPrefix: false,
+    exclude: ["map"],
+    alias: [
+      ["camelCase", "stringToCamelCase"],
+      ["kebabCase", "stringToKebab"],
+      ["isDate", "isLodashDate"]
+    ],
+  },
 });

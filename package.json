@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.5.4",
+    "axios": "^1.8.4",
     "nuxt": "^3.13.0",
+    "nuxt-lodash": "^2.5.3",
     "nuxt-swiper": "^1.2.2",
     "pinia": "^2.2.2",
     "pinia-plugin-persistedstate": "^4.0.1",
