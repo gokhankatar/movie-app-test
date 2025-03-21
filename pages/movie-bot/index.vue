@@ -12,6 +12,7 @@
       >
         <v-text-field
           v-model="models.api_key"
+          :rules="rules.api_key"
           variant="outlined"
           label="Your API Key"
           type="text"
@@ -24,8 +25,8 @@
           clearable
         />
 
-        <p class="text-white rounded-lg pa-3 bg-error mb-5" v-if="isWrongPassw">
-          Wrong Password !
+        <p class="swaying text-white rounded-lg pa-3 bg-error mb-5" v-if="isWrongPassw">
+          Wrong Key !
         </p>
 
         <v-btn
@@ -116,6 +117,13 @@ const models = ref<Models>({
   api_key: null,
 });
 
+const rules = ref({
+  api_key: [
+    (v: string) => !!v || "Api Key is required",
+    (v: string) => v.length >= 3 || "Your api key must be at least 3 characters long",
+  ],
+})
+
 const botMovies = ref<any[] | null>(null);
 const isLoading = ref(false);
 
@@ -177,6 +185,10 @@ const handleSubmit = async () => {
     _store.setSpecialUser();
   } else {
     isWrongPassw.value = true;
+    models.value.api_key = null;
+    setTimeout(()=>{
+      isWrongPassw.value = false;
+    },1500)
   }
 };
 
@@ -250,5 +262,28 @@ onMounted(()=>{
   position: absolute;
   bottom: 5%;
   z-index: 99;
+}
+
+.swaying {
+  display: inline-block;
+  animation: sway 0.3s ease-in-out 1;
+}
+
+@keyframes sway {
+  0% {
+    transform: translate(5px, -5px) rotate(2deg);
+  }
+  25% {
+    transform: translate(-5px, 5px) rotate(-2deg);
+  }
+  50% {
+    transform: translate(5px, 5px) rotate(2deg);
+  }
+  75% {
+    transform: translate(-5px, -5px) rotate(-2deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0);
+  }
 }
 </style>
