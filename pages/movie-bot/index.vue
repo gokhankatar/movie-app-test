@@ -1,6 +1,6 @@
 <template>
   <v-row
-    v-if="!_store.isSpecialUser"
+    v-if="!_store.isSpecialUser && !isLoading"
     class="form-pop-cent d-flex justify-center align-center"
   >
     <v-col cols="12" sm="10" md="8" lg="6">
@@ -169,7 +169,6 @@ const handleSubmit = async () => {
   if (!valid) return;
 
   if (models.value.api_key == _store.apiKey) {
-    getSpecialMovies();
     isWrongPassw.value = false;
     models.value.api_key = null;
     _store.setSpecialUser();
@@ -187,6 +186,9 @@ const goToMovie = (item: any) => {
   });
 };
 
+onMounted(()=>{
+    getSpecialMovies();
+})
 </script>
 <style scoped>
 .form-pop-cent {

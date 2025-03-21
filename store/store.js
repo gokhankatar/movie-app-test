@@ -16,7 +16,10 @@ const store = defineStore("store", {
         },
         setSpecialUser(){
             this.isSpecialUser = true;
-        }
+        },
+        setSpecialUserFalse(){
+            this.isSpecialUser = false;
+        },
     },
     persist: true
 });

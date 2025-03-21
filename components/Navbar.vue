@@ -30,6 +30,21 @@
         class="link d-none d-sm-flex transition cursor-pointer pa-2 mr-5 bg-transparent rounded-lg"
         >All Movies</span
       >
+      <span
+        @click="router.replace('/movie-bot')"
+        :class="route.fullPath.includes('movie-bot') ? 'active-link' : ''"
+        class="link d-none d-sm-flex transition cursor-pointer pa-2 mx-2 bg-transparent rounded-lg"
+        >Movie Bot &nbsp; <v-icon icon="mdi-robot-excited-outline" size="small"
+      /></span>
+
+      <v-btn
+        @click="router.replace('/movie-bot')"
+        class="d-flex d-sm-none"
+        variant="tonal"
+        rounded="lg"
+        icon="mdi-robot-excited-outline"
+      >
+      </v-btn>
       <v-btn
         @click="openSearchBar"
         variant="outlined"
