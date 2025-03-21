@@ -122,22 +122,24 @@ const isLoading = ref(false);
 const movieTitles = [
   "Finch",
   "Arctic",
+  "Corpse Bride",
   "Snowpiercer",
+  "The Prestige",
   "Elysium",
-  "The Night Eats the World",
-  "The Autopsy of Jane Doe",
+  "Soul",
+  "부산행",
+  "Togo",
   "The Vanishing",
   "Green Room",
-  "Buried",
   "Hush",
-  "Coherence",
+  "Ex Machina",
+  "Chappie",
   "The Grey",
   "Upgrade",
-  "Hardcore Henry",
   "The Colony",
-  "The Belko Experiment",
-  "The Rover",
-  "Children of Men",
+  "10 Cloverfield Lane",
+  "In Time",
+  "Django Unchained"
 ];
 
 const getSpecialMovies = async () => {
