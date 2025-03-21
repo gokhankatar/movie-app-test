@@ -58,7 +58,6 @@
       sm="6"
       md="4"
       lg="3"
-      xl="2"
     >
       <v-img
         height="450"
@@ -123,6 +122,8 @@ const isLoading = ref(false);
 const movieTitles = [
   "Finch",
   "Arctic",
+  "Snowpiercer",
+  "Elysium",
   "The Night Eats the World",
   "The Autopsy of Jane Doe",
   "The Vanishing",
