@@ -90,10 +90,20 @@
           prepend-icon="mdi-share-variant"
         />
         <v-btn
+          v-if="_store.isSpecialUser"
+          @click="router.replace('/movie-bot')"
+          variant="outlined"
+          class="back-btn-for-special mb-3 rounded-lg transition"
+          size="large"
+          text="back to movie-bot"
+          prepend-icon="mdi-robot-excited-outline"
+        />
+        <v-btn
           @click="router.replace('/movies')"
           variant="outlined"
           class="back-btn rounded-lg transition"
           size="large"
+          prepend-icon="mdi-arrow-left"
           text="back to movies"
         />
       </v-col>
@@ -114,6 +124,9 @@
 <script lang="ts" setup>
 import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import store from "~/store/store";
+
+const _store = store();
 
 const isLoading = ref(false);
 const isOpeningTrailer = ref(false);
@@ -276,5 +289,10 @@ onMounted(async () => {
   border-color: red;
   background-color: red;
   color: #fff;
+}
+.back-btn-for-special:hover {
+  border-color: #26a69a !important;
+  background-color: #26a69a !important;
+  color: #fff !important;
 }
 </style>
