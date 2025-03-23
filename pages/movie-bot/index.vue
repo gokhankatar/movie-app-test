@@ -49,7 +49,7 @@
     class="d-flex justify-center align-center"
   >
     <v-col cols="12" class="my-5">
-      <p class="text-center text-md-start text-h5 text-lg-h4">Willkommen, Ahsen :)</p>
+      <p class="text-center text-md-start text-h5 text-lg-h4">Welcome to the movie bot</p>
     </v-col>
     <v-col
       class="movie rounded-lg"
