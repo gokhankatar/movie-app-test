@@ -49,6 +49,7 @@ useHead({
       sm="6"
       md="4"
       lg="3"
+      xl="2"
     >
       <v-img
         height="450"
